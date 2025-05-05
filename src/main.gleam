@@ -1,5 +1,5 @@
-import day_1/day_1
+import day_2/day_2
 
 pub fn main() -> Nil {
-  day_1.day_1()
+  day_2.day_2()
 }

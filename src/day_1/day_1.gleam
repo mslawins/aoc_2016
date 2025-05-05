@@ -39,7 +39,7 @@ pub fn day_1() {
   utils.print_fn_result(utils.DayOne, utils.PartTwo, part_two)
 }
 
-pub fn part_one(input: String) -> Int {
+pub fn part_one(input: String) -> utils.TaskResult {
   let position = Position(horizontal: 0, vertical: 0)
   let pose = Pose(position, direction: North)
 
@@ -57,10 +57,10 @@ pub fn part_one(input: String) -> Int {
       let new_position = move(steps, state.position, new_direction)
       Pose(position: new_position, direction: new_direction)
     })
-  to_distance(final_pose.position)
+  utils.IntResult(to_distance(final_pose.position))
 }
 
-pub fn part_two(input: String) -> Int {
+pub fn part_two(input: String) -> utils.TaskResult {
   let position = Position(horizontal: 0, vertical: 0)
   let path = Path(pose: Pose(position, direction: North), history: [position])
 
@@ -113,7 +113,7 @@ pub fn part_two(input: String) -> Int {
     })
 
   case visited_state.target {
-    Some(v) -> to_distance(v)
+    Some(v) -> utils.IntResult(to_distance(v))
     None -> todo("Panic!")
   }
 }

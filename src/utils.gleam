@@ -2,12 +2,18 @@ import birl
 import gleam/int
 import gleam/io
 
-pub type FnResult {
-  FnResult(time_ms: Int, result: Int)
+pub type TaskResult {
+  IntResult(Int)
+  StringResult(String)
+}
+
+pub type TaskResultWithTime {
+  TaskResultWithTime(time_ms: Int, result: TaskResult)
 }
 
 pub type Day {
   DayOne
+  DayTwo
 }
 
 pub type Task {
@@ -16,9 +22,9 @@ pub type Task {
 }
 
 pub fn measure_execution_time_in_ms(
-  fn_to_measure: fn(String) -> Int,
+  fn_to_measure: fn(String) -> TaskResult,
   input: String,
-) -> FnResult {
+) -> TaskResultWithTime {
   let before = birl.utc_now()
   let result = fn_to_measure(input)
   let after = birl.utc_now()
@@ -27,20 +33,27 @@ pub fn measure_execution_time_in_ms(
   let after = birl.to_unix_milli(after)
   let execution_time = after - before
 
-  FnResult(time_ms: execution_time, result: result)
+  TaskResultWithTime(time_ms: execution_time, result: result)
 }
 
-pub fn print_fn_result(day: Day, task: Task, fn_result: FnResult) {
+pub fn print_fn_result(day: Day, task: Task, task_result: TaskResultWithTime) {
   let day = case day {
     DayOne -> "Day 1, "
+    DayTwo -> "Day 2, "
   }
 
   let task = case task {
     PartOne -> "part one:"
     PartTwo -> "part two:"
   }
+
+  let formatted_result = case task_result.result {
+    IntResult(value) -> int.to_string(value)
+    StringResult(value) -> value
+  }
+
   io.println("")
   io.println(day <> task)
-  io.println("Result: " <> int.to_string(fn_result.result))
-  io.println("Time: " <> int.to_string(fn_result.time_ms) <> "ms")
+  io.println("Result: " <> formatted_result)
+  io.println("Time: " <> int.to_string(task_result.time_ms) <> "ms")
 }
