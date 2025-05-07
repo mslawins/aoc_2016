@@ -14,6 +14,7 @@ pub type TaskResultWithTime {
 pub type Day {
   DayOne
   DayTwo
+  DayThree
 }
 
 pub type Task {
@@ -40,6 +41,7 @@ pub fn print_fn_result(day: Day, task: Task, task_result: TaskResultWithTime) {
   let day = case day {
     DayOne -> "Day 1, "
     DayTwo -> "Day 2, "
+    DayThree -> "Day 3, "
   }
 
   let task = case task {
