@@ -1,0 +1,20 @@
+import inputs/day_X
+import utils
+
+pub fn day_X() {
+  let input = day_X.day_X_input()
+  let part_one = utils.measure_execution_time_in_ms(part_one, input)
+  utils.print_fn_result(utils.DayX, utils.PartOne, part_one)
+
+  let part_two = utils.measure_execution_time_in_ms(part_two, input)
+  utils.print_fn_result(utils.DayX, utils.PartTwo, part_two)
+}
+
+pub fn part_one(input: String) -> utils.TaskResult {
+  utils.IntResult(0)
+}
+
+pub fn part_two(input: String) -> utils.TaskResult {
+  utils.IntResult(0)
+}
+
