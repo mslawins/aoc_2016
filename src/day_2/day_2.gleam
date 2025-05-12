@@ -84,7 +84,7 @@ fn move_on_square_keypad(position: String, side: String) -> String {
     "9", "R" -> "9"
     "9", "D" -> "9"
     "9", "L" -> "8"
-    _, _ -> todo("Panic!")
+    _, _ -> panic
   }
 }
 
@@ -142,6 +142,6 @@ fn move_on_diamond_keypad(position: String, dir: String) -> String {
     "D", "R" -> "D"
     "D", "D" -> "D"
     "D", "L" -> "D"
-    _, _ -> todo("Panic!")
+    _, _ -> panic
   }
 }

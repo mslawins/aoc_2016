@@ -18,10 +18,8 @@ pub fn part_one(input: String) -> utils.TaskResult {
   let result =
     triples
     |> list.fold(0, fn(accumulator, triple) {
-      let found = case triple {
-        [a, b, c] -> is_triangle(a, b, c)
-        _ -> todo("Panic!")
-      }
+      let assert [a, b, c] = triple
+      let found = is_triangle(a, b, c)
 
       case found {
         True -> accumulator + 1
@@ -40,10 +38,8 @@ pub fn part_two(input: String) -> utils.TaskResult {
     |> list.flatten()
     |> list.sized_chunk(3)
     |> list.fold(0, fn(accumulator, triple) {
-      let found = case triple {
-        [a, b, c] -> is_triangle(a, b, c)
-        _ -> todo("Panic!")
-      }
+      let assert [a, b, c] = triple
+      let found = is_triangle(a, b, c)
       case found {
         True -> accumulator + 1
         False -> accumulator
@@ -61,10 +57,8 @@ fn parse_input(input: String) -> List(List(Int)) {
     |> string.split(" ")
     |> list.filter(fn(token) { token != "" })
     |> list.map(fn(token) {
-      case int.parse(token) {
-        Ok(token) -> token
-        Error(_) -> todo("Panic!")
-      }
+      let assert Ok(token) = int.parse(token)
+      token
     })
   })
 }

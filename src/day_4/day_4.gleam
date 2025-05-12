@@ -67,30 +67,17 @@ pub fn caesar_words(words: List(String), shift: Int) -> List(String) {
 }
 
 pub fn caesar_shift(letter: String, shift: Int) -> String {
-  let a_code = string.to_utf_codepoints("a")
-  let a_code = case list.first(a_code) {
-    Ok(v) -> v
-    Error(_) -> todo("Panic!")
-  }
+  let assert [a_code] = string.to_utf_codepoints("a")
   let a_code = string.utf_codepoint_to_int(a_code)
 
-  let code = string.to_utf_codepoints(letter)
-  let code = case list.first(code) {
-    Ok(v) -> v
-    Error(_) -> todo("Panic!")
-  }
+  let assert [code] = string.to_utf_codepoints(letter)
   let code = string.utf_codepoint_to_int(code)
 
   let normalized = code - a_code
-  let shifted = case int.modulo(normalized + shift, 26) {
-    Ok(v) -> v
-    Error(_) -> todo("Panic!")
-  }
+  let assert Ok(shifted) = int.modulo(normalized + shift, 26)
+
   let new_code = shifted + a_code
-  let new_codepoint = case string.utf_codepoint(new_code) {
-    Ok(v) -> v
-    Error(_) -> todo("Panic!")
-  }
+  let assert Ok(new_codepoint) = string.utf_codepoint(new_code)
   string.from_utf_codepoints([new_codepoint])
 }
 
@@ -126,30 +113,13 @@ pub fn count_letters(name: List(String)) -> Dict(String, Int) {
 pub fn parse_room(line: String) {
   let tokens = string.split(line, "-")
   let reversed_tokens = list.reverse(tokens)
-  let rest = list.rest(reversed_tokens)
-  let rest = case rest {
-    Ok(value) -> value
-    Error(_) -> todo("Panic!")
-  }
+
+  let assert [last_token, ..rest] = reversed_tokens
   let name_tokens = list.reverse(rest)
-  let last_token = case list.first(reversed_tokens) {
-    Ok(t) -> t
-    Error(_) -> todo("Panic!")
-  }
-  let last_token_list = string.split(last_token, "[")
-  let sector_id = case list.first(last_token_list) {
-    Ok(value) -> value
-    Error(_) -> todo("Panic!")
-  }
-  let sector_id = case int.parse(sector_id) {
-    Ok(v) -> v
-    Error(_) -> todo("Panic!")
-  }
-  let checksum = case list.last(last_token_list) {
-    Ok(value) -> value
-    Error(_) -> todo("Panic!")
-  }
-  let checksum = string.drop_end(checksum, 1)
+  let assert [sector_id_str, checksum_with_bracket] =
+    string.split(last_token, "[")
+  let assert Ok(sector_id) = int.parse(sector_id_str)
+  let checksum = string.drop_end(checksum_with_bracket, 1)
 
   Room(name_tokens, sector_id, checksum)
 }

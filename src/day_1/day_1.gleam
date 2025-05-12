@@ -76,10 +76,8 @@ pub fn part_two(input: String) -> utils.TaskResult {
         |> result.unwrap(-1)
       let new_direction = rotate(path.pose.direction, turn)
       let positions = get_positions(path.pose.position, new_direction, steps)
-      let final_position = case list.last(positions) {
-        Ok(position) -> position
-        Error(_) -> todo("Panic!")
-      }
+      let assert Ok(final_position) = list.last(positions)
+
       Path(
         Pose(final_position, new_direction),
         history: list.flatten([path.history, positions]),
@@ -112,10 +110,8 @@ pub fn part_two(input: String) -> utils.TaskResult {
       }
     })
 
-  case visited_state.target {
-    Some(v) -> utils.IntResult(to_distance(v))
-    None -> todo("Panic!")
-  }
+  let assert Some(target) = visited_state.target
+  utils.IntResult(to_distance(target))
 }
 
 fn rotate(current_direction: Direction, turn: String) -> Direction {
@@ -128,7 +124,7 @@ fn rotate(current_direction: Direction, turn: String) -> Direction {
     South, "R" -> West
     West, "L" -> South
     West, "R" -> North
-    _, _ -> todo("Panic!")
+    _, _ -> panic
   }
 }
 
